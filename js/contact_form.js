@@ -1,4 +1,71 @@
-// Fetching HTML Elements in Variables by ID.
+var lat;
+var long;
+const appID = "446f4d120d2d737d3c1a5c466f05627f";
+function startApp() {
+    console.log("It works")
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                lat = position.coords.latitude;
+                long = position.coords.longitude;
+
+                getWeather();
+                getRandomUser();
+            }
+        );
+    }
+}
+function getWeather() { // gets API from openweathermap
+    var url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${appID}`;
+    console.log(url);
+
+    fetch(url).then(function (response) {
+        response.json().then(function (data) {
+            console.log(data);
+            LoadWeatherData(data);
+        });
+    });
+}
+
+function getRandomUser() { //Random User Source for data
+    fetch("https://randomuser.me/api").then(function (response) {
+        response.json().then(function (dane) {
+
+            dataReady(dane);
+        })
+    });
+}
+
+function LoadWeatherData(data) { //Weather APP
+    const city = data.name;
+    const country = data.sys.country;
+    const temp = data.main.temp;
+    const clouds = data.clouds.all;
+    const pressure = data.main.pressure;
+    const sunrise = new Date(data.sys.sunrise * 1000);
+    const sunset = new Date(data.sys.sunset * 1000);
+    const windSpeed = data.wind.speed;
+    const dayLenght = new Date((data.sys.sunset * 1000) - (data.sys.sunrise * 1000));
+
+    var imgURL = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
+    document.getElementById("WeatherImg").setAttribute("src", imgURL)
+
+    document.getElementById("cityLink").innerHTML = city + ", " + country;
+    const cityLink = document.getElementById("cityLink");
+    cityLink.innerHTML = (city + ", " + country);
+    cityLink.href = (`https://openstreetmap.org/#map=4/lat=${lat}&lon=${long}`);
+
+    document.getElementById("temp").innerHTML = temp + " *C";
+    document.getElementById("clouds").innerHTML = clouds + " %";
+    document.getElementById("windSpeed").innerHTML = windSpeed + " km/h";
+    document.getElementById("pressure").innerHTML = pressure + " hPa";
+    document.getElementById("sunrise").innerHTML = sunrise.getHours() + ":" + ("0" + sunrise.getMinutes()).slice(-2);
+    document.getElementById("sunset").innerHTML = sunset.getHours() + ":" + ("0" + sunset.getMinutes()).slice(-2);
+    document.getElementById("dayLenght").innerHTML = (dayLenght.getHours() + "h " + dayLenght.getMinutes() + "min");
+
+
+}
 var x = document.getElementById("Page4");
 var createform = document.createElement('contact_form'); // Create New Element Form
 createform.setAttribute("action", ""); // Setting Action Attribute on Form
@@ -51,17 +118,12 @@ var submitelement = document.createElement('input'); // Append Submit Button
 submitelement.setAttribute("type", "submit");
 submitelement.setAttribute("name", "dsubmit");
 submitelement.setAttribute("value", "send");
-createform.appendChild(submitelement); 
+createform.appendChild(submitelement);
 
-window.onload = function () { //Random Ussr Source for data
-    fetch("https://randomuser.me/api")
-        .then(response => response.json())
-        .then(data => dataReady(data))
-}
 
-function dataReady(data) { // Random User Applet
-    console.log(data);
-    var result = data.results[0];
+function dataReady(dane) { // Random User Applet
+    console.log(dane);
+    var result = dane.results[0];
     var fullname = result.name.title + " "
         + result.name.first + " "
         + result.name.last;
@@ -76,13 +138,13 @@ function dataReady(data) { // Random User Applet
     var email = result.email;
     document.getElementById("email").innerHTML = email;
 
-    var country = result.location.country;
-    document.getElementById("country").innerHTML = country;
+    var origin = result.location.country;
+    document.getElementById("origin").innerHTML = origin;
 }
 
-function reloadDiv(){ // Random User reload button
+function reloadDiv() { // Random User reload button
     window.location.reload();
-} 
+}
 
 var textAreaStatsDiv = document.getElementById("textStats");
 var createArea = document.createElement('textarea'); //TextArea ?????
@@ -96,8 +158,9 @@ function onChange(e) {
     const data = createArea.value;
     const numChar = data.length;
     const numWords = data.replace(/[\r\n]/g, " ").split(" ").length;
-    const numSent = data.split(".").length-1;
+    const numSent = data.split(".").length - 1;
     document.getElementById("num-char").innerHTML = numChar;
     document.getElementById("num-words").innerHTML = numWords;
     document.getElementById("num-sent").innerHTML = numSent;
 }
+
