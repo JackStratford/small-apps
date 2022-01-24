@@ -2,7 +2,7 @@ var lat;
 var long;
 const appID = "446f4d120d2d737d3c1a5c466f05627f";
 var map = L.map('Map').setView([51.505, -0.09], 13);
-   
+
 function startApp() {
     console.log("It works")
 
@@ -19,13 +19,12 @@ function startApp() {
     }
 }
 
-//document.getElementById("Map").innerHTML = map;
 var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/satellite-v9',
     tileSize: 512,
-    zoomOffset: -1,   
+    zoomOffset: -1,
 }).addTo(map);
 
 function getWeather() { // gets API from openweathermap
@@ -39,7 +38,6 @@ function getWeather() { // gets API from openweathermap
         });
     });
 }
-
 
 function getRandomUser() { //Random User Source for data limited to countries within europe for routing function 
     fetch("https://randomuser.me/api/?results=2&nat=de,dk,es,fr,gb,ie,nl").then(function (response) {
@@ -95,13 +93,13 @@ function getWeatherForUser(userData, userIndex) {
     var url = `https://api.openweathermap.org/data/2.5/weather?q=${userCity}&units=metric&appid=${appID}`;
     console.log(url);
     console.log(userCity);
-        
+
     fetch(url).then(function (response) {
-            response.json().then(function (data) {
-                console.log(data);
-                loadWeatherForUser(data, userIndex);
-            });
-        });   
+        response.json().then(function (data) {
+            console.log(data);
+            loadWeatherForUser(data, userIndex);
+        });
+    });
 }
 
 function LoadWeatherData(data) { //Weather APP
@@ -177,7 +175,7 @@ function dataReady(dane) { // Random User Applet
     document.getElementById("origin1").innerHTML = city1 + ", " + origin1;
 }
 
-function loadWeatherForUser (data, userIndex) {
+function loadWeatherForUser(data, userIndex) {
     var userTemp = data.main.temp;
     var imgURLUser = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
     document.getElementById(`WeatherImgUser${userIndex}`).setAttribute("src", imgURLUser)
