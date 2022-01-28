@@ -20,7 +20,7 @@ main {
  position:fixed;
  top: 0;
  width: 100%;
- z-index: 100;
+ z-index: 1;
 }
 .topnav a {
  float: left;
@@ -30,6 +30,7 @@ main {
  padding: 14px 16px;
  text-decoration: none;
  border-radius: 10px;
+ z-index: 1;
 }
 .topnav a:hover {
   background-color: rgb(75, 133, 219)
@@ -68,7 +69,8 @@ section:nth-child(6) {
 #Map {
    height: 70%;
    width: 80%;
-   position: absolute;
+   position: relative;
+   z-index: 2;
 }
 label{
   float:left;

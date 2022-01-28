@@ -1,7 +1,7 @@
 var lat;
 var long;
 const appID = "446f4d120d2d737d3c1a5c466f05627f";
-var map = L.map('Map').setView([51.505, -0.09], 13);
+var map = L.map('Map').setView([71.133229, 27.654213], 13);
 
 function startApp() {
     console.log("It works")
@@ -22,7 +22,7 @@ function startApp() {
 var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
-    id: 'mapbox/satellite-v9',
+    id: 'mapbox/streets-v11',
     tileSize: 512,
     zoomOffset: -1,
 }).addTo(map);
@@ -34,7 +34,7 @@ function getWeather() { // gets API from openweathermap
     fetch(url).then(function (response) {
         response.json().then(function (data) {
             console.log(data);
-            LoadWeatherData(data);
+            loadWeatherData(data);
         });
     });
 }
@@ -102,7 +102,7 @@ function getWeatherForUser(userData, userIndex) {
     });
 }
 
-function LoadWeatherData(data) { //Weather APP
+function loadWeatherData(data) { //Weather APP
     const city = data.name;
     const country = data.sys.country;
     const temp = data.main.temp;
@@ -130,8 +130,6 @@ function LoadWeatherData(data) { //Weather APP
     document.getElementById("sunrise").innerHTML = sunrise.getHours() + ":" + ("0" + sunrise.getMinutes()).slice(-2);
     document.getElementById("sunset").innerHTML = sunset.getHours() + ":" + ("0" + sunset.getMinutes()).slice(-2);
     document.getElementById("dayLenght").innerHTML = (dayLenght.getHours() + "h " + dayLenght.getMinutes() + "min");
-
-
 }
 
 function dataReady(dane) { // Random User Applet
@@ -197,8 +195,6 @@ function LoadWeatherDataUser1(data) { ////Loads Weather for RandomUser1
     document.getElementById("user1temp").innerHTML = "Weather: " + user1temp + " *C";
 }
 */
-
-
 var textAreaStatsDiv = document.getElementById("textStats");
 var createArea = document.createElement('textarea'); //TextArea ?????
 createArea.setAttribute("name", "textStats");
@@ -216,4 +212,3 @@ function onChange(e) {
     document.getElementById("num-words").innerHTML = numWords;
     document.getElementById("num-sent").innerHTML = numSent;
 }
-
