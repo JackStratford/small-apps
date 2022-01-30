@@ -163,7 +163,7 @@ function dataReady(dane) { // Random User Applet
         shadowSize: [68, 95],
         shadowAnchor: [22, 94]
     });
-    L.marker([30.505, 15.57], { icon: myIcon }).addTo(map);
+    L.marker([`${result.location.coordinates.latitude}`, `${result.location.coordinates.longitude}`], { icon: myIcon }).addTo(map);
     L.marker([`${result1.location.coordinates.latitude}`, `${result1.location.coordinates.longitude}`], { icon: myIcon1, }).addTo(map);
     // L.marker([`${data.coord.lat}`, `${data.coord.lon}`], {icon: `${myIcon1}`,}).addTo(map);
 }
