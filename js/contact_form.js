@@ -1,7 +1,6 @@
-var lat;
-var long;
+
 const appID = "446f4d120d2d737d3c1a5c466f05627f";
-var map = L.map('Map').setView([71.133229, 27.654213], 13);
+var map = L.map('Map').setView([51, 20], 4);
 
 function startApp() {
     console.log("It works")
@@ -14,6 +13,7 @@ function startApp() {
 
                 getWeather();
                 getRandomUser();
+                    
             }
         );
     }
@@ -24,8 +24,12 @@ var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}
     maxZoom: 18,
     id: 'mapbox/streets-v11',
     tileSize: 512,
-    zoomOffset: -1,
+    zoomOffset: -1, 
 }).addTo(map);
+
+var latlngs = [[51.800621, 19.521547], [60.147993, 8.666963]];
+
+var path = L.polyline(latlngs, ).addTo(map); 
 
 function getWeather() { // gets API from openweathermap
     var url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${appID}`;
@@ -47,47 +51,13 @@ function getRandomUser() { //Random User Source for data limited to countries wi
             for (var i = 0; i <= userData.results.length - 1; i++) {
                 console.log(i);
                 getWeatherForUser(userData.results[i], i);
+                
             }
+            
         })
     });
 }
-/*
-function getWeatherForUser0(dane) { // gets API from openweathermap for user0 from RandomUser.me
 
-    /*
-    var user0Lat = dane.results[0].location.coordinates.latitude; //lat and long data from randomuser.me are not corresponding with the city and state. They're random so the weather data are not accurate
-    var user0Long = dane.results[0].location.coordinates.longitude;
-    var url = `https://api.openweathermap.org/data/2.5/weather?lat=${user0Lat}&lon=${user0Long}&units=metric&appid=${appID}`; 
-    console.log(url);
-    console.log(user0Lat);
-    */
-/*
-    var user0city = dane.results[0].location.city; //lat and long data from randomuser.me are not corresponding with the city and state. They're random so the weather data are not accurate
-    var url = `https://api.openweathermap.org/data/2.5/weather?q=${user0city}&units=metric&appid=${appID}`;
-    console.log(url);
-    console.log(user0city);
-    
-    fetch(url).then(function (response) {
-        response.json().then(function (data) {
-            console.log(data);
-            LoadWeatherDataUser0(data);
-        });
-    });
-}
-function getWeatherForUser1(dane) {
-    var user1city = dane.results[1].location.city; //lat and long data from randomuser.me are not corresponding with the city and state. They're random so the weather data are not accurate
-    var url = `https://api.openweathermap.org/data/2.5/weather?q=${user1city}&units=metric&appid=${appID}`;
-    console.log(url);
-    console.log(user1city);
-        
-    fetch(url).then(function (response) {
-            response.json().then(function (data) {
-                console.log(data);
-                LoadWeatherDataUser1(data);
-            });
-        });    
-}
-*/
 function getWeatherForUser(userData, userIndex) {
     var userCity = userData.location.city; //lat and long data from randomuser.me are not corresponding with the city and state. They're random so the weather data are not accurate
     var url = `https://api.openweathermap.org/data/2.5/weather?q=${userCity}&units=metric&appid=${appID}`;
@@ -97,7 +67,8 @@ function getWeatherForUser(userData, userIndex) {
     fetch(url).then(function (response) {
         response.json().then(function (data) {
             console.log(data);
-            loadWeatherForUser(data, userIndex);
+            loadWeatherForUser(data, userIndex);         
+
         });
     });
 }
@@ -171,6 +142,30 @@ function dataReady(dane) { // Random User Applet
     var origin1 = result1.location.country;
     var city1 = result1.location.city;
     document.getElementById("origin1").innerHTML = city1 + ", " + origin1;
+
+    var iconUrl= result.picture.large;
+    var iconUrl1= result1.picture.large;
+    var myIcon = L.icon({
+        iconUrl: iconUrl,
+        iconSize: [45, 45],
+        iconAnchor: [22, 94],
+        popupAnchor: [-3, -76],
+        shadowUrl: false,
+        shadowSize: [68, 95],
+        shadowAnchor: [22, 94]
+    });
+    var myIcon1 = L.icon({
+        iconUrl: iconUrl1,
+        iconSize: [45, 45],
+        iconAnchor: [22, 94],
+        popupAnchor: [-3, -76],
+        shadowUrl: false,
+        shadowSize: [68, 95],
+        shadowAnchor: [22, 94]
+    });
+    L.marker([30.505, 15.57], {icon: myIcon}).addTo(map);
+    L.marker([`${result1.location.coordinates.latitude}`, `${result1.location.coordinates.longitude}`], {icon: myIcon1,}).addTo(map);
+    // L.marker([`${data.coord.lat}`, `${data.coord.lon}`], {icon: `${myIcon1}`,}).addTo(map);
 }
 
 function loadWeatherForUser(data, userIndex) {
@@ -180,21 +175,6 @@ function loadWeatherForUser(data, userIndex) {
     document.getElementById(`user${userIndex}temp`).innerHTML = "Weather: " + userTemp + " *C";
 }
 
-/*
-function LoadWeatherDataUser0(data) { //Loads Weather for RandomUser0
-    var user0temp = data.main.temp;
-    var imgURLUser0 = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
-    document.getElementById("WeatherImgUser0").setAttribute("src", imgURLUser0)
-    document.getElementById("user0temp").innerHTML = "Weather: " + user0temp + " *C";
-}
-
-function LoadWeatherDataUser1(data) { ////Loads Weather for RandomUser1
-    var user1temp = data.main.temp;
-    var imgURLUser1 = "http://openweathermap.org/img/wn/" + data.weather[1].icon + "@2x.png"
-    document.getElementById("WeatherImgUser1").setAttribute("src", imgURLUser1)
-    document.getElementById("user1temp").innerHTML = "Weather: " + user1temp + " *C";
-}
-*/
 var textAreaStatsDiv = document.getElementById("textStats");
 var createArea = document.createElement('textarea'); //TextArea ?????
 createArea.setAttribute("name", "textStats");
