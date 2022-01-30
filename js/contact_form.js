@@ -13,7 +13,7 @@ function startApp() {
 
                 getWeather();
                 getRandomUser();
-                    
+
             }
         );
     }
@@ -24,12 +24,12 @@ var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}
     maxZoom: 18,
     id: 'mapbox/streets-v11',
     tileSize: 512,
-    zoomOffset: -1, 
+    zoomOffset: -1,
 }).addTo(map);
 
 var latlngs = [[51.800621, 19.521547], [60.147993, 8.666963]];
 
-var path = L.polyline(latlngs, ).addTo(map); 
+var path = L.polyline(latlngs,).addTo(map);
 
 function getWeather() { // gets API from openweathermap
     var url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${appID}`;
@@ -51,9 +51,9 @@ function getRandomUser() { //Random User Source for data limited to countries wi
             for (var i = 0; i <= userData.results.length - 1; i++) {
                 console.log(i);
                 getWeatherForUser(userData.results[i], i);
-                
+
             }
-            
+
         })
     });
 }
@@ -67,7 +67,7 @@ function getWeatherForUser(userData, userIndex) {
     fetch(url).then(function (response) {
         response.json().then(function (data) {
             console.log(data);
-            loadWeatherForUser(data, userIndex);         
+            loadWeatherForUser(data, userIndex);
 
         });
     });
@@ -143,8 +143,8 @@ function dataReady(dane) { // Random User Applet
     var city1 = result1.location.city;
     document.getElementById("origin1").innerHTML = city1 + ", " + origin1;
 
-    var iconUrl= result.picture.large;
-    var iconUrl1= result1.picture.large;
+    var iconUrl = result.picture.large;
+    var iconUrl1 = result1.picture.large;
     var myIcon = L.icon({
         iconUrl: iconUrl,
         iconSize: [45, 45],
@@ -163,8 +163,8 @@ function dataReady(dane) { // Random User Applet
         shadowSize: [68, 95],
         shadowAnchor: [22, 94]
     });
-    L.marker([30.505, 15.57], {icon: myIcon}).addTo(map);
-    L.marker([`${result1.location.coordinates.latitude}`, `${result1.location.coordinates.longitude}`], {icon: myIcon1,}).addTo(map);
+    L.marker([30.505, 15.57], { icon: myIcon }).addTo(map);
+    L.marker([`${result1.location.coordinates.latitude}`, `${result1.location.coordinates.longitude}`], { icon: myIcon1, }).addTo(map);
     // L.marker([`${data.coord.lat}`, `${data.coord.lon}`], {icon: `${myIcon1}`,}).addTo(map);
 }
 
